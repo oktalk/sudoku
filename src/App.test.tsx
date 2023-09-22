@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import { GameProvider } from './model/game-context';
+import { GameProvider } from './models/game-context';
 
 test('renders whole app', () => {
   render(
