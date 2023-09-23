@@ -42,6 +42,8 @@
   padding-bottom: 0;
 }
 .cell {
+  width: auto;
+  height: 100%;
   padding-left: 1px;
   padding-right: 1px;
 }
