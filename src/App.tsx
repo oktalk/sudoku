@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import RenderBoard from './views/RenderBoard';
-import CellInputs from './views/CellInputs';
+import CellControls from './views/CellControls';
 import ControlsUi from './views/ControlsUi';
 import NewGame from './views/NewGame';
 import './App.css';
@@ -15,7 +15,7 @@ function App() {
         <ControlsUi setShowModal={setShowModal} />
       </div>
       <RenderBoard />
-      <CellInputs />
+      <CellControls />
       {showModal && createPortal(<NewGame setShowModal={setShowModal} />, document.body)}
     </div>
   );

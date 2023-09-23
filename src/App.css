@@ -19,40 +19,56 @@
   position: absolute;
 }
 
+/* Game board */
 .game-board {
-  max-width: 56rem;
+  max-width: 31.25rem;
   height: 75vh;
   margin: auto;
-  background-color: black;
-  gap: 4px;
+  background-color: #444;
   padding: 5px;
-}
-.grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  height: 100%;
+  grid-template-rows: repeat(9, 1fr);
+  gap: 2px;
 }
-.block {
-  gap: 1px;
+.row {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+}
+.row:nth-child(3n) {
+  padding-bottom: 3px;
+}
+.row:last-child {
+  padding-bottom: 0;
 }
 .cell {
-  background-color: white;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+.cell:nth-child(3n) {
+  padding-right: 3px;
+}
+.cell:last-child {
+  padding-right: 0;
 }
 .value {
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 13px;
+  font-size: 24px;
   background-color: transparent;
   border: none;
   display: block;
   margin: 0;
   padding: 0;
+  background-color: white;
+  border-radius: 0;
 }
 .value:focus,
 .cell.active .value {
   background-color: wheat;
+}
+.cell.error .value {
+  background-color: red;
 }
 
 .cell-inputs {
@@ -68,23 +84,95 @@
 
 /* Modal */
 .overlay {
-  background-color: rgba(0,0,0,.6);
+  background-color: rgba(0, 0, 0, .6);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.overlay.active {
-  display: block;
-  z-index: 10;
+.overlay-heading {}
+.overlay-body {
+  margin: auto;
+  background-color: aliceblue;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
 }
-.overlay.in-active {
-  display: none;
-  z-index: 0;
+.overlay-loading {display: none;}
+.overlay-loading.active {
+  position: absolute;
+  z-index: 12;
+  background-color: rgba(0, 0, 0, .7);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Utilities */
 .d-block {display: block;}
 .hidden {display: none;}
+
+
+/* Loading */
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}

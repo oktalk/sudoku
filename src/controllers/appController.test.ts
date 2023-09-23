@@ -1,4 +1,4 @@
-import { checkRow, checkCol, checkBlock, checkBoard } from './app-controller';
+import { checkRow, checkCol, checkBlock, checkBoard } from './appController';
 
 describe('validate board', () => {
   let board: number[][];

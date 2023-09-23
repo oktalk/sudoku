@@ -1,12 +1,29 @@
-# Getting Started with Create React App
+# Sudoku
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Roadmap
+
+- Starting numbers are highlighted and uneditable
+- Entering a value automatically checks for invalid entries and highlights any found
+- Toggle between "enter value" mode and "scratch notes"
+- Check puzzel for errors, highlits incorrect values
+- Reset puzzel restores original puzzel state
+- Store X amount of puzzels in local storage, load more weekly
+- Load user inputs from local storage to persist values
+- Share?
+- Award winners
+- Sound
+
+# For local development
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+## `yarn deploy`
+
+Runs "deploy": "gh-pages -d build" to deploy the project on GitHub pages at: [https://oktalk.github.io/sudoku/](https://oktalk.github.io/sudoku/)
+
+### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,12 +31,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### `yarn test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### `yarn build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,7 +46,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 

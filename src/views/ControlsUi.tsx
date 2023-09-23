@@ -1,16 +1,20 @@
 import React from 'react';
-import { useGame } from '../models/game-context';
-import { checkBoard } from '../controllers/app-controller';
+import { useGame } from '../models/gameContext';
+import { checkBoard } from '../controllers/appController';
 
 export default function ControlsUi({ setShowModal } : { setShowModal: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [toggle, setToggle] = React.useState(false);
-  const {state: {board}} = useGame()
+  const {state: {board}, dispatch} = useGame()
 
   return (
     <div className='controls-ui'>
       <button onClick={() => setToggle((prevState) => !prevState)}>Settings</button>
       <div className={`dropdown ${toggle ? 'd-block' : 'hidden'}`}>
-        <button onClick={() => false}>Reset</button>
+        <button
+          onClick={() => { dispatch({type: 'reset'}) }}
+        >
+          Reset
+        </button>
         <button onClick={() => {
           console.log('check board', checkBoard(board))
         }}>Check Puzzle</button>
