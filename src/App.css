@@ -54,7 +54,7 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 24px;
+  font-size: 5vh;
   background-color: transparent;
   border: none;
   display: block;
@@ -80,6 +80,26 @@
 .cell-input {
   flex: 1;
   height: 40px;
+}
+
+.label {position: relative;}
+.notes {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+.notes span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5vh;
+  color: #444;
 }
 
 /* Modal */

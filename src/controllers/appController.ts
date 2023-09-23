@@ -2,7 +2,10 @@
 // checkCellValue({row: 3, col: 3, block: 1, value: 8}, board)
 // returns true
 
-export function checkRow(row: number, value: number, board: number[][]) {
+export function checkRow(row: number | any, value: number | any, board: number[][]) {
+  if (row === null) {
+    return false;
+  }
   // loop over the row and check if the value is present
   // if the value is present, return the row and col of the matched index
   // if the value is not present, return false
@@ -14,7 +17,10 @@ export function checkRow(row: number, value: number, board: number[][]) {
   return false;
 }
 
-export function checkCol(col: number, value: number, board: number[][]) {
+export function checkCol(col: number | any, value: number | any, board: number[][]) {
+  if (col === null) {
+    return false;
+  }
   // loop over the col and check if the value is present
   // if the value is present, return the row and col of the matched index
   // if the value is not present, return false
@@ -26,7 +32,10 @@ export function checkCol(col: number, value: number, board: number[][]) {
   return false;
 }
 
-export function checkBlock(row: number, col: number, value: number, board: number[][]) {
+export function checkBlock(row: number | any, col: number | any, value: number, board: number[][]) {
+  if (row === null || col === null) {
+    return false;
+  }
   // loop over the block and check if the value is present
   // if the value is present, return the row and col of the matched index
   // if the value is not present, return false

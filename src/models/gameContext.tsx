@@ -3,10 +3,11 @@ import React from 'react'
 interface IBoard {
   currentBoard: number[][];
   board: number[][];
-  selectedCell: { row: number | any, col: number | any };
-  blockError: { row: number | any, col: number | any };
-  rowError: { row: number | any, col: number | any };
-  colError: { row: number | any, col: number | any };
+  boardNotes: number[][][];
+  selectedCell: [number | any, number | any];
+  blockError: [number | any, number | any];
+  rowError: [number | any, number | any];
+  colError: [number | any, number | any];
   difficulty: string;
   isLoading: boolean;
   serverError: any;
@@ -16,9 +17,11 @@ type Action =
   {type: 'load', payload?: any} |
   {type: 'reset', payload?: any} |
   {type: 'set', payload?: any} |
+  {type: 'setNote', payload?: any} |
   {type: 'delete', payload?: any} |
   {type: 'select', payload?: any} |
   {type: 'cellError', payload?: any} |
+  {type: 'cellNote', payload?: any} |
   {type: any, payload?: any}
 type Dispatch = (action: Action) => void
 type State = IBoard
@@ -35,14 +38,18 @@ const initPuzzle = [
   [0,0,0,6,1,0,9,4,0],
   [9,0,0,0,0,3,0,6,1]
 ];
+const note = new Array(9).fill(0);
+const cell = new Array(9).fill(note);
+const noteRow = new Array(9).fill(cell);
 
 const initBoard = {
   currentBoard: initPuzzle,
   board: initPuzzle,
-  selectedCell: { row: null, col: null },
-  blockError: { row: null, col: null },
-  rowError: { row: null, col: null },
-  colError: { row: null, col: null },
+  boardNotes: noteRow,
+  selectedCell: [null, null],
+  blockError: [null, null],
+  rowError: [null, null],
+  colError: [null, null],
   difficulty: 'easy',
   isLoading: false,
   serverError: null,
@@ -63,14 +70,14 @@ function gameReducer(state: State, action: Action) {
       return {
         ...state,
         board: state.currentBoard,
-        selectedCell: { row: null, col: null },
-        blockError: { row: null, col: null },
-        rowError: { row: null, col: null },
-        colError: { row: null, col: null },
+        selectedCell: initBoard.selectedCell,
+        blockError: initBoard.blockError,
+        rowError: initBoard.rowError,
+        colError: initBoard.colError,
       }
     }
     case 'set': {
-      const {row, col, value} = action.payload
+      const [row, col, value] = action.payload
       return {
         ...state,
         board: state.board.map((rowArray, rowIndex) => {
@@ -78,6 +85,27 @@ function gameReducer(state: State, action: Action) {
             return rowArray.map((cellValue, colIndex) => {
               if (colIndex === col) {
                 return value
+              }
+              return cellValue
+            })
+          }
+          return rowArray
+        })
+      }
+    }
+    case 'setNote': {
+      const [row, col, value] = action.payload
+      return {
+        ...state,
+        boardNotes: state.boardNotes.map((rowArray, rowIndex) => {
+          if (rowIndex === row) {
+            return rowArray.map((cellValue, colIndex) => {
+              if (colIndex === col) {
+                if (typeof value === 'object') return value;
+                if (cellValue.includes(value)) {
+                  return cellValue.map((note) => note === value ? 0 : note)
+                }
+                return cellValue.map((note, index) => index === value - 1 ? value : note)
               }
               return cellValue
             })

@@ -4,9 +4,16 @@ import { checkBlock, checkCol, checkRow } from '../controllers/appController';
 
 export default function CellControls() {
   const {state: {selectedCell, board}, dispatch} = useGame();
+  const [toggle, setToggle] = React.useState(true);
 
   return (
     <div className="cell-inputs">
+      <button
+        className='cell-input'
+        onClick={() => setToggle(!toggle)}
+      >
+        {toggle ? "Cell" : "Note"}
+      </button>
       {[1,2,3,4,5,6,7,8,9].map((item, index) => {
         return (
           <button
@@ -15,15 +22,13 @@ export default function CellControls() {
             onClick={() => {
               if (!selectedCell) return;
               dispatch({
-                type: 'set',
-                payload: {...selectedCell, value: item}
+                type: toggle ? 'set' : 'setNote',
+                payload: [...selectedCell, item]
               })
-              dispatch({type: 'blockError', payload: checkBlock(selectedCell.row, selectedCell.col, item, board)});
-              dispatch({type: 'rowError', payload: checkRow(selectedCell.row, item, board)});
-              dispatch({type: 'colError', payload: checkCol(selectedCell.col, item, board)});
-              console.log('block', checkBlock(selectedCell.row, selectedCell.col, item, board))
-              console.log('row', checkRow(selectedCell.row, item, board))
-              console.log('col', checkCol(selectedCell.row, item, board))
+              if (!toggle) return;
+              dispatch({type: 'blockError', payload: checkBlock(selectedCell[0], selectedCell[1], item, board)});
+              dispatch({type: 'rowError', payload: checkRow(selectedCell[0], item, board)});
+              dispatch({type: 'colError', payload: checkCol(selectedCell[1], item, board)});
             }}
           >
             {item}
@@ -33,13 +38,16 @@ export default function CellControls() {
       <button
         className='cell-input'
         onClick={() => {
+          const initValue = toggle ? 0 : [0,0,0,0,0,0,0,0,0];
+          console.log(initValue);
           dispatch({
-            type: 'set',
-            payload: {...selectedCell, value: ''}
+            type: toggle ? 'set' : 'setNote',
+            payload: [...selectedCell, initValue]
           })
-          dispatch({ type: 'blockError', payload: { row: null, col: null } });
-          dispatch({ type: 'rowError', payload: { row: null, col: null } });
-          dispatch({ type: 'colError', payload: { row: null, col: null } });
+          if (!toggle) return;
+          dispatch({ type: 'blockError', payload: ['', ''] });
+          dispatch({ type: 'rowError', payload: ['', ''] });
+          dispatch({ type: 'colError', payload: ['', ''] });
         }}
       >
         X
