@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  max-width: 31.25rem;
 }
 .controls-ui {
   position: relative;
@@ -71,10 +72,14 @@
   background-color: red;
 }
 
-.label {position: relative;}
+.label {
+  display: block;
+  position: relative;
+}
 .notes {
   pointer-events: none;
   position: absolute;
+  z-index: 15;
   top: 0;
   left: 0;
   right: 0;
@@ -130,6 +135,7 @@
 /* Buttons */
 .cell-inputs {
   width: 100%;
+  max-width: 31.25rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
