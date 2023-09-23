@@ -9,7 +9,7 @@ export default function CellControls() {
   return (
     <div className="cell-inputs">
       <button
-        className='cell-input'
+        className='cell-input button'
         onClick={() => setToggle(!toggle)}
       >
         {toggle ? "Cell" : "Note"}
@@ -17,7 +17,7 @@ export default function CellControls() {
       {[1,2,3,4,5,6,7,8,9].map((item, index) => {
         return (
           <button
-            className='cell-input'
+            className='cell-input button'
             key={index / item}
             onClick={() => {
               if (!selectedCell) return;
@@ -36,7 +36,7 @@ export default function CellControls() {
         );
       })}
       <button
-        className='cell-input'
+        className='cell-input button'
         onClick={() => {
           const initValue = toggle ? 0 : [0,0,0,0,0,0,0,0,0];
           console.log(initValue);

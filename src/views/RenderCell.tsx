@@ -29,9 +29,11 @@ export default function RenderCell({cell, rowIndex, colIndex} : {cell: number, r
     <div className={`cell cell-${rowIndex}-${colIndex} ${active ? 'active' : ''} ${error ? 'error' : ''}`}>
       <label className='label' htmlFor="cellValue">
         <span className='notes'>
-          {boardNotes[rowIndex][colIndex].map((cellNote, index) => (
-            <span key={index + (rowIndex*9+colIndex)}>{cellNote !== 0 ? cellNote : ''}</span>
-          ))}
+          {cell === 0 &&
+            (boardNotes[rowIndex][colIndex].map((cellNote, index) => (
+              <span key={index + (rowIndex*9+colIndex)}>{cellNote !== 0 ? cellNote : ''}</span>
+            )))
+          }
         </span>
         <input
           type="text"
