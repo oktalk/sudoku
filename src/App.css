@@ -76,8 +76,11 @@
 .cell.active .value {
   background-color: wheat;
 }
-.cell.error .value {
+.cell.in-valid-cell .value {
   background-color: red;
+}
+.cell.in-valid-board .value {
+  background-color: yellow;
 }
 
 .label {

@@ -50,24 +50,28 @@ export function checkBlock(row: number | any, col: number | any, value: number, 
   return false;
 }
 
-export function checkBoard(board: number[][]) {
+export function checkBoard(board: number[][], solution: number[][]) {
   // check every index on the board to see if the value is present
   // if any value is === 0 return false;
   // if all values are !== 0 return check block, row, and col
   // if any of the checks return false, return false
   // else return true
-  for (let i = 0; i < board.length; i++) {
-    if (board[i].includes(0)) {
-      return false;
-    }
-  }
+  // for (let i = 0; i < board.length; i++) {
+  //   if (board[i].includes(0)) {
+  //     return false;
+  //   }
+  // }
+  const errors = [];
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      const value = board[i][j];
-      if (!checkRow(i, value, board) || !checkCol(j, value, board) || !checkBlock(i, j, value, board)) {
-        return false;
+      const boardValue = board[i][j];
+      const value = solution[i][j];
+      if (boardValue !== 0) {
+        if (!checkRow(i, value, board) || !checkCol(j, value, board) || !checkBlock(i, j, value, board)) {
+          errors.push([i,j]);
+        }
       }
     }
   }
-  return true;
+  return errors;
 }

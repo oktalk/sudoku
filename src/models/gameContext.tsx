@@ -1,13 +1,16 @@
 import React from 'react'
+import Sudoku from '../controllers/generator';
 
 interface IBoard {
   currentBoard: number[][];
   board: number[][];
+  solvedPuzzle: number[][];
   boardNotes: number[][][];
   selectedCell: [number | any, number | any];
   blockError: [number | any, number | any];
   rowError: [number | any, number | any];
   colError: [number | any, number | any];
+  cellError: [number | any, number | any];
   difficulty: string;
   isLoading: boolean;
   serverError: any;
@@ -27,29 +30,27 @@ type Dispatch = (action: Action) => void
 type State = IBoard
 type GameProviderProps = {children: React.ReactNode}
 
-const initPuzzle = [
-  [5,0,7,9,4,0,2,0,8],
-  [0,2,0,5,0,8,0,0,0],
-  [0,8,0,2,0,7,0,5,0],
-  [2,0,4,0,5,0,8,0,0],
-  [0,0,8,0,7,0,6,0,4],
-  [0,9,0,4,0,2,0,1,0],
-  [6,0,0,0,9,0,0,8,0],
-  [0,0,0,6,1,0,9,4,0],
-  [9,0,0,0,0,3,0,6,1]
-];
+let N = 9;
+let K = 27;
+let sudoku = new Sudoku(N, K);
+const initPuzzle = sudoku.fillValues();
+
 const note = new Array(9).fill(0);
 const cell = new Array(9).fill(note);
 const noteRow = new Array(9).fill(cell);
 
+// console.log(initPuzzle.puzzle, initPuzzle.solution)
+
 const initBoard = {
-  currentBoard: initPuzzle,
-  board: initPuzzle,
+  currentBoard: initPuzzle.puzzle,
+  board: initPuzzle.puzzle,
+  solvedPuzzle: initPuzzle.solution,
   boardNotes: noteRow,
   selectedCell: [null, null],
   blockError: [null, null],
   rowError: [null, null],
   colError: [null, null],
+  cellError: [-1, -1],
   difficulty: 'easy',
   isLoading: false,
   serverError: null,
@@ -62,8 +63,9 @@ function gameReducer(state: State, action: Action) {
     case 'load': {
       return {
         ...state,
-        currentBoard: action.payload.board,
-        board: action.payload.board
+        currentBoard: action.payload.puzzle,
+        board: action.payload.puzzle,
+        solvedPuzzle: action.payload.solution,
       }
     }
     case 'reset': {
@@ -136,6 +138,12 @@ function gameReducer(state: State, action: Action) {
       return {
         ...state,
         colError: action.payload
+      };
+    }
+    case 'cellError': {
+      return {
+        ...state,
+        cellError: action.payload,
       };
     }
     case 'delete': {

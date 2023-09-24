@@ -1,5 +1,8 @@
 import React from 'react';
 import { useGame } from '../models/gameContext';
+import Sudoku from '../controllers/generator';
+
+let sudoku = (N: number, K: number) => new Sudoku(N, K);
 
 export default function ControlsUi({ setShowModal } : { setShowModal: React.Dispatch<React.SetStateAction<boolean>>}) {
   const {dispatch} = useGame();
@@ -29,9 +32,27 @@ export default function ControlsUi({ setShowModal } : { setShowModal: React.Disp
           <button onClick={() => setShowModal(false)}>Back</button>
         </div>
         <div className='overlay-body'>
-          <button onClick={() => fetchData('easy')}>Easy</button>
-          <button onClick={() => fetchData('medium')}>Medium</button>
-          <button onClick={() => fetchData('hard')}>Hard</button>
+          <button onClick={() => {
+            dispatch({
+              type: 'load',
+              payload: sudoku(9, 27).fillValues()
+            });
+            dispatch({ type: 'reset' });
+          }}>Easy</button>
+          <button onClick={() => {
+            dispatch({
+              type: 'load',
+              payload: sudoku(9, 36).fillValues()
+            });
+            dispatch({ type: 'reset' });
+          }}>Medium</button>
+          <button onClick={() => {
+            dispatch({
+              type: 'load',
+              payload: sudoku(9, 49).fillValues()
+            });
+            dispatch({ type: 'reset' });
+          }}>Hard</button>
           {serverError && <div>Server Error</div>}
         </div>
       </div>

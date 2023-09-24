@@ -4,7 +4,7 @@ import { checkBoard } from '../controllers/appController';
 
 export default function ControlsUi({ setShowModal } : { setShowModal: React.Dispatch<React.SetStateAction<boolean>>}) {
   const [toggle, setToggle] = React.useState(false);
-  const {state: {board}, dispatch} = useGame()
+  const {state: {board, solvedPuzzle}, dispatch} = useGame()
 
   return (
     <div className='controls-ui'>
@@ -16,7 +16,10 @@ export default function ControlsUi({ setShowModal } : { setShowModal: React.Disp
           Reset
         </button>
         <button onClick={() => {
-          console.log('check board', checkBoard(board))
+          dispatch({
+            type: 'cellError',
+            payload: checkBoard(board, solvedPuzzle)
+          })
         }}>Check Puzzle</button>
         <button onClick={() => setShowModal(true)}>Load New Puzzle</button>
       </div>

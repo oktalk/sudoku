@@ -1,32 +1,43 @@
 import React from 'react';
 import { useGame } from '../models/gameContext';
 
-export default function RenderCell({cell, rowIndex, colIndex} : {cell: number, rowIndex: number, colIndex: number}) {
-  const {state: {boardNotes, selectedCell, blockError, rowError, colError}, dispatch} = useGame();
-  const [active, setActive] = React.useState(false);
-  const [error, setError] = React.useState(false);
+const boardValidation = (cellError: [number, number][], rowIndex: number, colIndex: number) => {
+  return cellError.find((cell) => {
+    if (cell[0] === rowIndex && cell[1] === colIndex) {
+      return true;
+    }
+    return false;
+  });
+}
 
-  React.useEffect(() => {
-    if (!selectedCell) {
-      setActive(false);
-    } else if (selectedCell[0] === rowIndex && selectedCell[1] === colIndex) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-    if (
-      (blockError[0] === rowIndex && blockError[1] === colIndex) ||
-      (rowError[0] === rowIndex && rowError[1] === colIndex) ||
-      (colError[0] === rowIndex && rowError[1] === colIndex)
-    ) {
-      setError(true);
-    } else {
-      setError(false);
-    }
-  }, [selectedCell, blockError, rowError, colError, rowIndex, colIndex]);
+const cellValidation = (blockError: [number, number], rowError: [number, number], colError: [number, number], rowIndex: number, colIndex: number) => {
+  if (
+    (blockError[0] === rowIndex && blockError[1] === colIndex) ||
+    (rowError[0] === rowIndex && rowError[1] === colIndex) ||
+    (colError[0] === rowIndex && colError[1] === colIndex)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+const cellHighLight = (selectedCell: [number, number], rowIndex: number, colIndex: number) => {
+  if (!selectedCell) {
+    return false;
+  } else if (selectedCell[0] === rowIndex && selectedCell[1] === colIndex) {
+    return true;
+  }
+  return false;
+}
+
+export default function RenderCell({cell, rowIndex, colIndex} : {cell: number, rowIndex: number, colIndex: number}) {
+  const {state: {boardNotes, selectedCell, blockError, rowError, colError, cellError}, dispatch} = useGame();
+  const isActive = cellHighLight(selectedCell, rowIndex, colIndex);
+  const inValidBoard = boardValidation(cellError, rowIndex, colIndex);
+  const inValidCell = cellValidation(blockError, rowError, colError, rowIndex, colIndex);
 
   return (
-    <div className={`cell cell-${rowIndex}-${colIndex} ${active ? 'active' : ''} ${error ? 'error' : ''}`}>
+    <div className={`cell cell-${rowIndex}-${colIndex} ${isActive ? 'active' : ''} ${inValidCell ? 'in-valid-cell' : 'valid-cell'} ${inValidBoard ? 'in-valid-board' : 'valid-board'}`}>
       <label className='label' htmlFor="cellValue">
         <span className='notes'>
           {cell === 0 &&
